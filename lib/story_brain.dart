@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:second_boss/story.dart';
 
-class StoryBrain extends StatefulWidget {
+class StoryBrain {
+  int _storyNumber = 0;
   final List<Story> _storyData = [
     Story(
       storyTitle:
@@ -40,24 +40,22 @@ class StoryBrain extends StatefulWidget {
     ),
   ];
 
-  StoryBrain({super.key});
+  String get storyText => _storyData[_storyNumber].storyTitle;
+  String get choice1Text => _storyData[_storyNumber].choice1;
+  String get choice2Text => _storyData[_storyNumber].choice2;
+  bool get isChoice2Visible => choice2Text.isNotEmpty;
 
-  @override
-  State<StoryBrain> createState() => _StoryBrainState();
-}
-
-class _StoryBrainState extends State<StoryBrain> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
+  void nextStory(int choiceNumber) {
+    if (_storyNumber == 0) {
+      _storyNumber = choiceNumber == 1 ? 1 : 2;
+    } else if (_storyNumber == 1) {
+      _storyNumber = choiceNumber == 1 ? 3 : 4;
+    } else if (_storyNumber == 2) {
+      _storyNumber = choiceNumber == 1 ? 5 : 4;
+    } else {
+      reset();
+    }
   }
+
+  void reset() => _storyNumber = 0;
 }
